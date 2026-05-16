@@ -29,16 +29,20 @@ CLICKUP_LIST_ID = os.environ["CLICKUP_LIST_ID"]
 HISTORY_FILE    = os.path.join(os.path.dirname(os.path.abspath(__file__)), "signal_history.json")
 
 ASSETS = [
-    {"name": "BTC",    "symbol": "BTC-USD"},
-    {"name": "ETH",    "symbol": "ETH-USD"},
-    {"name": "BCH",    "symbol": "BCH-USD"},
-    {"name": "GOLD",   "symbol": "GC=F"},
-    {"name": "SILVER", "symbol": "SI=F"},
-    {"name": "OIL",    "symbol": "CL=F"},
+    {"name": "BTC",    "symbol": "BTCUSDT", "source": "binance"},
+    {"name": "ETH",    "symbol": "ETHUSDT", "source": "binance"},
+    {"name": "BCH",    "symbol": "BCHUSDT", "source": "binance"},
+    {"name": "GOLD",   "symbol": "GC=F",    "source": "yfinance"},
+    {"name": "SILVER", "symbol": "SI=F",    "source": "yfinance"},
+    {"name": "OIL",    "symbol": "CL=F",    "source": "yfinance"},
 ]
 
-INTERVAL_MAP = {"15min": "15m", "4h": "1h"}
-PERIOD_MAP   = {"15min": "5d",  "4h": "60d"}
+BINANCE_INTERVAL = {"15min": "15m", "4h": "4h"}
+YF_INTERVAL      = {"15min": "15m", "4h": "1h"}
+YF_PERIOD        = {"15min": "5d",  "4h": "60d"}
+CACHE_TTL        = 240  # seconds — reuse yfinance data for 4 min
+
+_yf_cache: dict = {}
 
 # INDICATORS
 
@@ -93,24 +97,49 @@ def volume_above_avg(volumes):
 
 # DATA FETCH
 
-def fetch_candles(symbol, interval, output_size=220):
-    yf_interval = INTERVAL_MAP.get(interval, interval)
-    period      = PERIOD_MAP.get(interval, "60d")
+def _fetch_binance(symbol, interval, limit=220):
+    url = "https://api.binance.com/api/v3/klines"
+    params = {"symbol": symbol, "interval": BINANCE_INTERVAL[interval], "limit": limit}
     try:
-        df = yf.Ticker(symbol).history(period=period, interval=yf_interval)
+        resp = requests.get(url, params=params, timeout=15)
+        resp.raise_for_status()
+        return [{"open":   float(k[1]), "high":   float(k[2]),
+                 "low":    float(k[3]), "close":  float(k[4]),
+                 "volume": float(k[5])} for k in resp.json()]
+    except Exception as e:
+        print(f"  ⚠ Binance error {symbol}: {e}")
+        return None
+
+def _fetch_yfinance(symbol, interval, output_size=220):
+    key = f"{symbol}_{interval}"
+    now = time.time()
+    if key in _yf_cache and now - _yf_cache[key]["ts"] < CACHE_TTL:
+        print(f"  ↩ Using cached data for {symbol} {interval}")
+        return _yf_cache[key]["data"]
+    try:
+        df = yf.Ticker(symbol).history(period=YF_PERIOD[interval],
+                                        interval=YF_INTERVAL[interval])
         if df.empty:
             print(f"  ⚠ No data for {symbol} {interval}")
             return None
         df = df.tail(output_size)
-        return [{"open":   float(row.Open),
-                 "high":   float(row.High),
-                 "low":    float(row.Low),
-                 "close":  float(row.Close),
+        data = [{"open":   float(row.Open),   "high":  float(row.High),
+                 "low":    float(row.Low),    "close": float(row.Close),
                  "volume": float(row.Volume) if row.Volume else 1000.0}
                 for _, row in df.iterrows()]
+        _yf_cache[key] = {"ts": now, "data": data}
+        return data
     except Exception as e:
-        print(f"  ⚠ Fetch error {symbol}: {e}")
+        print(f"  ⚠ yfinance error {symbol}: {e}")
+        if key in _yf_cache:
+            print(f"  ↩ Using stale cache for {symbol} {interval}")
+            return _yf_cache[key]["data"]
         return None
+
+def fetch_candles(symbol, interval, source="binance", output_size=220):
+    if source == "binance":
+        return _fetch_binance(symbol, interval, output_size)
+    return _fetch_yfinance(symbol, interval, output_size)
 
 # SIGNAL ANALYSIS HELPERS
 
@@ -348,10 +377,10 @@ def _run_once():
     alerts_fired = 0
 
     for asset in ASSETS:
-        name, symbol = asset["name"], asset["symbol"]
+        name, symbol, source = asset["name"], asset["symbol"], asset["source"]
         print(f"\n▶ {name}")
-        c15 = fetch_candles(symbol, "15min", 220)
-        c4h = fetch_candles(symbol, "4h",    220)
+        c15 = fetch_candles(symbol, "15min", source)
+        c4h = fetch_candles(symbol, "4h",    source)
         if not c15 or not c4h:
             print(f"  ⚠ Skipping {name}")
             continue
