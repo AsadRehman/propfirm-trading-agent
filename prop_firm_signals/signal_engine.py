@@ -211,13 +211,20 @@ def _build_signal(direction, conviction, price, rsi, vol_ab):
             "rsi": round(rsi, 2), "vol_above": vol_ab}
 
 def _no_trade(al, ema_bull, ema_bear, rsi):
-    return al["sleeping"] or (not ema_bull and not ema_bear) or rsi >= 70 or rsi <= 30
+    # only block longs when oversold, only block shorts when overbought
+    if al["sleeping"] or (not ema_bull and not ema_bear):
+        return True
+    if ema_bull and rsi <= 30:   # don't long into oversold
+        return True
+    if ema_bear and rsi >= 70:   # don't short into overbought
+        return True
+    return False
 
 def _score_signals(al, ema_bull, ema_bear, hbull, hbear, hlw, huw, rsi, vol_ab):
     ls = sum([ema_bull, al["bull4h"], al["bull15"] and not al["sleeping"],
-              al["pabove"], hbull and not hlw, 50 < rsi < 70, vol_ab])
+              al["pabove"], hbull and not hlw, 50 < rsi < 75, vol_ab])
     ss = sum([ema_bear, al["bear4h"], al["bear15"] and not al["sleeping"],
-              al["pbelow"], hbear and not huw, 30 < rsi < 50, vol_ab])
+              al["pbelow"], hbear and not huw, rsi < 50, vol_ab])
     return ls, ss
 
 def _cha_flag(direction, hbull, hbear, hlw, huw):
@@ -256,10 +263,10 @@ def analyze_signal(c15, c4h):
 
     ls, ss = _score_signals(al, ema_bull, ema_bear, hbull, hbear, hlw, huw, rsi, vol_ab)
 
-    if ls < 7 and ss < 7:
+    if ls < 5 and ss < 5:
         return {**base, "direction": "WATCHING"}
 
-    direction  = "LONG" if ls == 7 else "SHORT"
+    direction  = "LONG" if ls >= ss else "SHORT"
     cha        = _cha_flag(direction, hbull, hbear, hlw, huw)
     conviction = _calc_conviction(direction, al["sep15"], al["sep4h"], cha, rsi)
     return _build_signal(direction, conviction, price, rsi, vol_ab)
