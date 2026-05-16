@@ -11,6 +11,7 @@ Runs every 5 minutes via GitHub Actions
 import os
 import json
 import time
+import threading
 import requests
 from datetime import datetime, timezone
 from dotenv import load_dotenv
@@ -298,9 +299,18 @@ def push_to_clickup(asset_name, signal):
 
 # MAIN
 
+def _heartbeat(stop_event, interval=30):
+    start = time.time()
+    while not stop_event.wait(interval):
+        elapsed = int(time.time() - start)
+        print(f"  ⏱ {elapsed}s elapsed — still running...", flush=True)
+
 def main():
     now = datetime.now(timezone.utc).strftime(UTC_FMT)
     print(f"\n{'='*55}\nSignal Engine — {now}\n{'='*55}")
+
+    stop = threading.Event()
+    threading.Thread(target=_heartbeat, args=(stop,), daemon=True).start()
 
     history     = load_history()
     candles_map = {}
@@ -333,6 +343,7 @@ def main():
     history = check_pending_outcomes(history, candles_map)
 
     save_history(history)
+    stop.set()
     print(f"\n{'='*55}\nDone.\n{'='*55}\n")
 
 if __name__ == "__main__":
