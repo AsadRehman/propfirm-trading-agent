@@ -2,8 +2,8 @@ name: Trading Signal Engine
 
 on:
   schedule:
-    - cron: "*/15 * * * *"   # every 15 minutes, 24/7
-  workflow_dispatch:           # manual trigger from GitHub UI
+    - cron: "*/5 * * * *"   # every 5 min (GitHub minimum) — change to */15 after testing
+  workflow_dispatch:          # manual trigger for testing
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -34,11 +34,10 @@ jobs:
           CLICKUP_LIST_ID: ${{ secrets.CLICKUP_LIST_ID }}
         run: python signal_engine.py
 
-      - name: Commit signal history and dashboard
+      - name: Commit signal history
         run: |
           git config user.name "Signal Bot"
           git config user.email "bot@prop-signals.com"
-          cp prop_firm_signals/dashboard.html index.html
-          git add prop_firm_signals/signal_history.json prop_firm_signals/dashboard.html index.html
-          git diff --staged --quiet || git commit -m "update signals & dashboard [skip ci]"
+          git add prop_firm_signals/signal_history.json prop_firm_signals/run_log.json
+          git diff --staged --quiet || git commit -m "update signal history [skip ci]"
           git push
