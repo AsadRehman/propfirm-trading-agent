@@ -9,12 +9,15 @@ Runs every 5 minutes via GitHub Actions
 """
 
 import os
+import sys
 import json
 import time
 import threading
 import requests
 from datetime import datetime, timezone
 from dotenv import load_dotenv
+
+sys.stdout.reconfigure(line_buffering=True)
 
 load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env"))
 
@@ -208,6 +211,29 @@ def analyze_signal(c15, c4h):
 
 # OUTCOME CHECKER
 
+def _check_candle(record, candle, tp, sl, now_utc):
+    direction = record["direction"]
+    asset     = record["asset"]
+    if direction == "LONG":
+        if candle["high"] >= tp:
+            record.update({"outcome": "TP", "outcome_time": now_utc, "outcome_price": tp})
+            print(f"  🎯 TP HIT: {asset} LONG @ {tp}")
+            return True
+        if candle["low"] <= sl:
+            record.update({"outcome": "SL", "outcome_time": now_utc, "outcome_price": sl})
+            print(f"  ❌ SL HIT: {asset} LONG @ {sl}")
+            return True
+    elif direction == "SHORT":
+        if candle["low"] <= tp:
+            record.update({"outcome": "TP", "outcome_time": now_utc, "outcome_price": tp})
+            print(f"  🎯 TP HIT: {asset} SHORT @ {tp}")
+            return True
+        if candle["high"] >= sl:
+            record.update({"outcome": "SL", "outcome_time": now_utc, "outcome_price": sl})
+            print(f"  ❌ SL HIT: {asset} SHORT @ {sl}")
+            return True
+    return False
+
 def check_pending_outcomes(history, candles_map):
     now_utc = datetime.now(timezone.utc).strftime(UTC_FMT)
     for record in history:
@@ -219,24 +245,8 @@ def check_pending_outcomes(history, candles_map):
         tp = record["tp_price"]
         sl = record["sl_price"]
         for c in candles[-50:]:
-            if record["direction"] == "LONG":
-                if c["high"] >= tp:
-                    record.update({"outcome": "TP", "outcome_time": now_utc, "outcome_price": tp})
-                    print(f"  🎯 TP HIT: {record['asset']} LONG @ {tp}")
-                    break
-                elif c["low"] <= sl:
-                    record.update({"outcome": "SL", "outcome_time": now_utc, "outcome_price": sl})
-                    print(f"  ❌ SL HIT: {record['asset']} LONG @ {sl}")
-                    break
-            elif record["direction"] == "SHORT":
-                if c["low"] <= tp:
-                    record.update({"outcome": "TP", "outcome_time": now_utc, "outcome_price": tp})
-                    print(f"  🎯 TP HIT: {record['asset']} SHORT @ {tp}")
-                    break
-                elif c["high"] >= sl:
-                    record.update({"outcome": "SL", "outcome_time": now_utc, "outcome_price": sl})
-                    print(f"  ❌ SL HIT: {record['asset']} SHORT @ {sl}")
-                    break
+            if _check_candle(record, c, tp, sl, now_utc):
+                break
     return history
 
 # HISTORY
@@ -320,7 +330,9 @@ def _heartbeat(stop_event, interval=30):
         elapsed = int(time.time() - start)
         print(f"  ⏱ {elapsed}s elapsed — still running...", flush=True)
 
-def main():
+SCAN_INTERVAL = 5 * 60  # 5 minutes
+
+def _run_once():
     now = datetime.now(timezone.utc).strftime(UTC_FMT)
     print(f"\n{'='*55}\nSignal Engine — {now}\n{'='*55}")
 
@@ -358,7 +370,6 @@ def main():
 
     print(f"\n{'─'*55}\nChecking pending outcomes...")
     history = check_pending_outcomes(history, candles_map)
-
     save_history(history)
     stop.set()
 
@@ -367,8 +378,17 @@ def main():
         print(f"  ✅ {alerts_fired} alert(s) generated and pushed to ClickUp.")
     else:
         print("  💤 No signals found this run.")
-    print("  ⏳ Next scan in ~5 minutes.")
+    print(f"  ⏳ Next scan in {SCAN_INTERVAL // 60} minutes.")
     print("="*55 + "\n")
+
+def main():
+    print("🚀 Signal Engine started. Press Ctrl+C to stop.")
+    while True:
+        try:
+            _run_once()
+        except Exception as e:
+            print(f"\n⚠ Run failed: {e} — retrying next cycle.", flush=True)
+        time.sleep(SCAN_INTERVAL)
 
 if __name__ == "__main__":
     main()
