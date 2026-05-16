@@ -14,7 +14,6 @@ import json
 import time
 import threading
 import requests
-import yfinance as yf
 from datetime import datetime, timezone
 from dotenv import load_dotenv
 
@@ -42,22 +41,25 @@ ASSETS = [
 BINANCE_INTERVAL = {"15min": "15m", "4h": "4h"}
 YF_INTERVAL      = {"15min": "15m", "4h": "1h"}
 YF_PERIOD        = {"15min": "5d",  "4h": "60d"}
-CACHE_TTL        = 240  # seconds — reuse yfinance data for 4 min
-YF_RETRY_DELAY   = 4    # seconds between yfinance retries
-YF_MAX_RETRIES   = 3
+CACHE_TTL      = 240  # seconds — reuse commodity data for 4 min
+YF_RETRY_DELAY = 5    # seconds between Yahoo retries
+YF_MAX_RETRIES = 3
+CRUMB_TTL      = 3600 # refresh Yahoo crumb once per hour
 
-_yf_cache: dict = {}
+_yf_cache:    dict  = {}
+_yf_crumb:    str   = ""
+_yf_crumb_ts: float = 0.0
 
 _yf_session = requests.Session()
 _yf_session.headers.update({
-    "User-Agent": (
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/124.0.0.0 Safari/537.36"
-    ),
-    "Accept":          "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "User-Agent":      ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                        "AppleWebKit/537.36 (KHTML, like Gecko) "
+                        "Chrome/124.0.0.0 Safari/537.36"),
+    "Accept":          "application/json,text/plain,*/*",
     "Accept-Language": "en-US,en;q=0.9",
     "Accept-Encoding": "gzip, deflate, br",
+    "Origin":          "https://finance.yahoo.com",
+    "Referer":         "https://finance.yahoo.com/",
 })
 
 # INDICATORS
@@ -126,6 +128,47 @@ def _fetch_binance(symbol, interval, limit=220):
         print(f"  ⚠ Binance error {symbol}: {e}")
         return None
 
+def _refresh_yf_crumb():
+    global _yf_crumb, _yf_crumb_ts
+    now = time.time()
+    if _yf_crumb and now - _yf_crumb_ts < CRUMB_TTL:
+        return
+    try:
+        _yf_session.get("https://fc.yahoo.com/", timeout=10)
+        resp = _yf_session.get(
+            "https://query2.finance.yahoo.com/v1/test/getcrumb", timeout=10)
+        if resp.status_code == 200 and resp.text.strip():
+            _yf_crumb    = resp.text.strip()
+            _yf_crumb_ts = now
+            print("  🔑 Yahoo crumb refreshed")
+        else:
+            print(f"  ⚠ Crumb fetch returned {resp.status_code}")
+    except Exception as e:
+        print(f"  ⚠ Crumb refresh failed: {e}")
+
+def _yahoo_candles(symbol, yf_interval, yf_range, output_size):
+    _refresh_yf_crumb()
+    url    = f"https://query2.finance.yahoo.com/v8/finance/chart/{symbol}"
+    params = {"interval": yf_interval, "range": yf_range, "events": "history"}
+    if _yf_crumb:
+        params["crumb"] = _yf_crumb
+    resp   = _yf_session.get(url, params=params, timeout=15)
+    resp.raise_for_status()
+    result = resp.json().get("chart", {}).get("result") or []
+    if not result:
+        return None
+    chart  = result[0]
+    quotes = chart["indicators"]["quote"][0]
+    data   = []
+    for i in range(len(chart["timestamp"])):
+        o, h, l, c = quotes["open"][i], quotes["high"][i], quotes["low"][i], quotes["close"][i]
+        if None in (o, h, l, c):
+            continue
+        v = quotes["volume"][i]
+        data.append({"open": float(o), "high": float(h), "low": float(l),
+                     "close": float(c), "volume": float(v) if v else 1000.0})
+    return data[-output_size:] if data else None
+
 def _fetch_yfinance(symbol, interval, output_size=220):
     key = f"{symbol}_{interval}"
     now = time.time()
@@ -135,21 +178,15 @@ def _fetch_yfinance(symbol, interval, output_size=220):
     last_err = None
     for attempt in range(1, YF_MAX_RETRIES + 1):
         try:
-            df = yf.Ticker(symbol, session=_yf_session).history(
-                period=YF_PERIOD[interval], interval=YF_INTERVAL[interval])
-            if df.empty:
-                print(f"  ⚠ No data for {symbol} {interval}")
+            data = _yahoo_candles(symbol, YF_INTERVAL[interval], YF_PERIOD[interval], output_size)
+            if not data:
+                print(f"  ⚠ No data returned for {symbol} {interval}")
                 return None
-            df = df.tail(output_size)
-            data = [{"open":   float(row.Open),   "high":  float(row.High),
-                     "low":    float(row.Low),    "close": float(row.Close),
-                     "volume": float(row.Volume) if row.Volume else 1000.0}
-                    for _, row in df.iterrows()]
             _yf_cache[key] = {"ts": time.time(), "data": data}
             return data
         except Exception as e:
             last_err = e
-            print(f"  ⚠ yfinance error {symbol} (attempt {attempt}/{YF_MAX_RETRIES}): {e}")
+            print(f"  ⚠ Yahoo error {symbol} (attempt {attempt}/{YF_MAX_RETRIES}): {e}")
             if attempt < YF_MAX_RETRIES:
                 time.sleep(YF_RETRY_DELAY)
     if key in _yf_cache:
@@ -189,11 +226,12 @@ def _alligator_flags(cl15, cl4h, price):
         "sep4h":  abs(l4 - j4) / j4,
     }
 
-def _calc_conviction(direction, sep15, sep4h, cha, rsi):
-    rsis = (55 <= rsi <= 65) if direction == "LONG" else (35 <= rsi <= 45)
-    if sep15 > 0.002 and sep4h > 0.002 and cha and rsis:
+def _calc_conviction(direction, sep15, sep4h, score, rsi):
+    # Prime RSI zones: LONG momentum builds 50-65, SHORT momentum builds 35-50
+    prime_rsi = (50 <= rsi <= 65) if direction == "LONG" else (35 <= rsi <= 50)
+    if sep15 > 0.002 and sep4h > 0.002 and score >= 6 and prime_rsi:
         return "HC"
-    if sep15 > 0.001 and cha:
+    if sep15 > 0.001 and score >= 5:
         return "MC"
     return "LC"
 
@@ -211,31 +249,60 @@ def _build_signal(direction, conviction, price, rsi, vol_ab):
             "rsi": round(rsi, 2), "vol_above": vol_ab}
 
 def _no_trade(al, ema_bull, ema_bear, rsi):
-    # only block longs when oversold, only block shorts when overbought
+    # Alligator sleeping = market consolidating, no directional edge
     if al["sleeping"] or (not ema_bull and not ema_bear):
         return True
-    if ema_bull and rsi <= 30:   # don't long into oversold
+    # Only block at extreme RSI — normal oversold/overbought is fine in trending markets
+    if ema_bull and rsi > 80:   # don't long when already extreme overbought
         return True
-    if ema_bear and rsi >= 70:   # don't short into overbought
+    if ema_bear and rsi < 20:   # don't short when already extreme oversold (bounce risk)
         return True
     return False
 
 def _score_signals(al, ema_bull, ema_bear, hbull, hbear, hlw, huw, rsi, vol_ab):
-    ls = sum([ema_bull, al["bull4h"], al["bull15"] and not al["sleeping"],
-              al["pabove"], hbull and not hlw, 50 < rsi < 75, vol_ab])
-    ss = sum([ema_bear, al["bear4h"], al["bear15"] and not al["sleeping"],
-              al["pbelow"], hbear and not huw, rsi < 50, vol_ab])
+    # --- LONG: 3 mandatory + 4 confirming (need total >= 5) ---
+    # Mandatory: EMA bullish trend + 4H alligator bullish + price above all alligator lines
+    # Confirming: 15min alligator + clean HA bullish + RSI above midline + volume
+    ls = sum([
+        ema_bull,                            # macro trend: price above EMA 50 & 200
+        al["bull4h"],                        # 4H alligator: Jaw < Teeth < Lips (bullish order)
+        al["pabove"],                        # price fully above all alligator lines
+        al["bull15"] and not al["sleeping"], # 15min alligator confirms direction
+        hbull and not hlw,                   # Heiken Ashi bullish, no long lower wick
+        40 < rsi < 75,                       # RSI in bullish momentum zone
+        vol_ab,                              # volume above 20-bar average
+    ])
+    # --- SHORT: 3 mandatory + 4 confirming (need total >= 5) ---
+    # Mandatory: EMA bearish trend + 4H alligator bearish + price below all alligator lines
+    # Confirming: 15min alligator + clean HA bearish + RSI below midline + volume
+    ss = sum([
+        ema_bear,                            # macro trend: price below EMA 50 & 200
+        al["bear4h"],                        # 4H alligator: Jaw > Teeth > Lips (bearish order)
+        al["pbelow"],                        # price fully below all alligator lines
+        al["bear15"] and not al["sleeping"], # 15min alligator confirms direction
+        hbear and not huw,                   # Heiken Ashi bearish, no long upper wick
+        rsi < 55,                            # RSI below midline (bearish momentum)
+        vol_ab,                              # volume above 20-bar average
+    ])
     return ls, ss
 
-def _cha_flag(direction, hbull, hbear, hlw, huw):
-    if direction == "LONG":
-        return hbull and not hlw
-    return hbear and not huw
+def _candles_ok(c15, c4h):
+    return c15 and len(c15) >= 50 and c4h and len(c4h) >= 210
+
+def _pick_direction(long_valid, short_valid, ls, ss):
+    if long_valid and short_valid:
+        return "LONG" if ls >= ss else "SHORT"
+    return "LONG" if long_valid else "SHORT"
+
+def _resolve_direction(long_valid, short_valid, ls, ss):
+    if not long_valid and not short_valid:
+        return None
+    return _pick_direction(long_valid, short_valid, ls, ss)
 
 # SIGNAL ANALYSIS
 
 def analyze_signal(c15, c4h):
-    if not c15 or len(c15) < 50 or not c4h or len(c4h) < 210:
+    if not _candles_ok(c15, c4h):
         return None
 
     cl15  = [c["close"] for c in c15]
@@ -261,14 +328,16 @@ def analyze_signal(c15, c4h):
     if _no_trade(al, ema_bull, ema_bear, rsi):
         return {**base, "direction": "NO TRADE"}
 
-    ls, ss = _score_signals(al, ema_bull, ema_bear, hbull, hbear, hlw, huw, rsi, vol_ab)
+    ls, ss      = _score_signals(al, ema_bull, ema_bear, hbull, hbear, hlw, huw, rsi, vol_ab)
+    long_valid  = ema_bull and al["bull4h"] and al["pabove"] and ls >= 5
+    short_valid = ema_bear and al["bear4h"] and al["pbelow"] and ss >= 5
+    direction   = _resolve_direction(long_valid, short_valid, ls, ss)
 
-    if ls < 5 and ss < 5:
+    if direction is None:
         return {**base, "direction": "WATCHING"}
 
-    direction  = "LONG" if ls >= ss else "SHORT"
-    cha        = _cha_flag(direction, hbull, hbear, hlw, huw)
-    conviction = _calc_conviction(direction, al["sep15"], al["sep4h"], cha, rsi)
+    score      = ls if direction == "LONG" else ss
+    conviction = _calc_conviction(direction, al["sep15"], al["sep4h"], score, rsi)
     return _build_signal(direction, conviction, price, rsi, vol_ab)
 
 # OUTCOME CHECKER
