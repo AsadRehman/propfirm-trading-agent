@@ -14,6 +14,7 @@ import json
 import time
 import threading
 import requests
+import yfinance as yf
 from datetime import datetime, timezone
 from dotenv import load_dotenv
 
@@ -23,19 +24,21 @@ load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env"))
 
 # --- Config ---
 UTC_FMT         = "%Y-%m-%d %H:%M UTC"
-TWELVE_DATA_KEY = os.environ["TWELVE_DATA_API_KEY"]
 CLICKUP_API_KEY = os.environ["CLICKUP_API_KEY"]
 CLICKUP_LIST_ID = os.environ["CLICKUP_LIST_ID"]
 HISTORY_FILE    = os.path.join(os.path.dirname(os.path.abspath(__file__)), "signal_history.json")
 
 ASSETS = [
-    {"name": "BTC",    "symbol": "BTC/USD"},
-    {"name": "ETH",    "symbol": "ETH/USD"},
-    {"name": "BCH",    "symbol": "BCH/USD"},
-    {"name": "GOLD",   "symbol": "XAU/USD"},
-    {"name": "SILVER", "symbol": "XAG/USD"},
-    {"name": "OIL",    "symbol": "WTI/USD"},
+    {"name": "BTC",    "symbol": "BTC-USD"},
+    {"name": "ETH",    "symbol": "ETH-USD"},
+    {"name": "BCH",    "symbol": "BCH-USD"},
+    {"name": "GOLD",   "symbol": "GC=F"},
+    {"name": "SILVER", "symbol": "SI=F"},
+    {"name": "OIL",    "symbol": "CL=F"},
 ]
+
+INTERVAL_MAP = {"15min": "15m", "4h": "1h"}
+PERIOD_MAP   = {"15min": "5d",  "4h": "60d"}
 
 # INDICATORS
 
@@ -91,19 +94,20 @@ def volume_above_avg(volumes):
 # DATA FETCH
 
 def fetch_candles(symbol, interval, output_size=220):
-    url = (f"https://api.twelvedata.com/time_series"
-           f"?symbol={symbol}&interval={interval}"
-           f"&outputsize={output_size}&apikey={TWELVE_DATA_KEY}")
+    yf_interval = INTERVAL_MAP.get(interval, interval)
+    period      = PERIOD_MAP.get(interval, "60d")
     try:
-        resp = requests.get(url, timeout=15)
-        data = resp.json()
-        if "values" not in data:
-            print(f"  ⚠ {symbol} {interval}: {data.get('message','no data')}")
+        df = yf.Ticker(symbol).history(period=period, interval=yf_interval)
+        if df.empty:
+            print(f"  ⚠ No data for {symbol} {interval}")
             return None
-        return [{"open": float(v["open"]), "high": float(v["high"]),
-                 "low": float(v["low"]),   "close": float(v["close"]),
-                 "volume": float(v.get("volume", 1000))}
-                for v in reversed(data["values"])]
+        df = df.tail(output_size)
+        return [{"open":   float(row.Open),
+                 "high":   float(row.High),
+                 "low":    float(row.Low),
+                 "close":  float(row.Close),
+                 "volume": float(row.Volume) if row.Volume else 1000.0}
+                for _, row in df.iterrows()]
     except Exception as e:
         print(f"  ⚠ Fetch error {symbol}: {e}")
         return None
@@ -346,10 +350,8 @@ def _run_once():
     for asset in ASSETS:
         name, symbol = asset["name"], asset["symbol"]
         print(f"\n▶ {name}")
-        time.sleep(2)
         c15 = fetch_candles(symbol, "15min", 220)
-        time.sleep(2)
-        c4h = fetch_candles(symbol, "4h", 220)
+        c4h = fetch_candles(symbol, "4h",    220)
         if not c15 or not c4h:
             print(f"  ⚠ Skipping {name}")
             continue
