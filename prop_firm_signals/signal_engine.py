@@ -14,6 +14,9 @@ import json
 import time
 import requests
 from datetime import datetime, timezone
+from dotenv import load_dotenv
+
+load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env"))
 
 # --- Config ---
 TWELVE_DATA_KEY = os.environ["TWELVE_DATA_API_KEY"]
