@@ -18,6 +18,8 @@ import yfinance as yf
 from datetime import datetime, timezone
 from dotenv import load_dotenv
 
+RUN_ONCE = "--once" in sys.argv  # set by GitHub Actions; local runs loop forever
+
 sys.stdout.reconfigure(line_buffering=True)
 
 load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env"))
@@ -41,8 +43,22 @@ BINANCE_INTERVAL = {"15min": "15m", "4h": "4h"}
 YF_INTERVAL      = {"15min": "15m", "4h": "1h"}
 YF_PERIOD        = {"15min": "5d",  "4h": "60d"}
 CACHE_TTL        = 240  # seconds — reuse yfinance data for 4 min
+YF_RETRY_DELAY   = 4    # seconds between yfinance retries
+YF_MAX_RETRIES   = 3
 
 _yf_cache: dict = {}
+
+_yf_session = requests.Session()
+_yf_session.headers.update({
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/124.0.0.0 Safari/537.36"
+    ),
+    "Accept":          "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Accept-Encoding": "gzip, deflate, br",
+})
 
 # INDICATORS
 
@@ -116,25 +132,31 @@ def _fetch_yfinance(symbol, interval, output_size=220):
     if key in _yf_cache and now - _yf_cache[key]["ts"] < CACHE_TTL:
         print(f"  ↩ Using cached data for {symbol} {interval}")
         return _yf_cache[key]["data"]
-    try:
-        df = yf.Ticker(symbol).history(period=YF_PERIOD[interval],
-                                        interval=YF_INTERVAL[interval])
-        if df.empty:
-            print(f"  ⚠ No data for {symbol} {interval}")
-            return None
-        df = df.tail(output_size)
-        data = [{"open":   float(row.Open),   "high":  float(row.High),
-                 "low":    float(row.Low),    "close": float(row.Close),
-                 "volume": float(row.Volume) if row.Volume else 1000.0}
-                for _, row in df.iterrows()]
-        _yf_cache[key] = {"ts": now, "data": data}
-        return data
-    except Exception as e:
-        print(f"  ⚠ yfinance error {symbol}: {e}")
-        if key in _yf_cache:
-            print(f"  ↩ Using stale cache for {symbol} {interval}")
-            return _yf_cache[key]["data"]
-        return None
+    last_err = None
+    for attempt in range(1, YF_MAX_RETRIES + 1):
+        try:
+            df = yf.Ticker(symbol, session=_yf_session).history(
+                period=YF_PERIOD[interval], interval=YF_INTERVAL[interval])
+            if df.empty:
+                print(f"  ⚠ No data for {symbol} {interval}")
+                return None
+            df = df.tail(output_size)
+            data = [{"open":   float(row.Open),   "high":  float(row.High),
+                     "low":    float(row.Low),    "close": float(row.Close),
+                     "volume": float(row.Volume) if row.Volume else 1000.0}
+                    for _, row in df.iterrows()]
+            _yf_cache[key] = {"ts": time.time(), "data": data}
+            return data
+        except Exception as e:
+            last_err = e
+            print(f"  ⚠ yfinance error {symbol} (attempt {attempt}/{YF_MAX_RETRIES}): {e}")
+            if attempt < YF_MAX_RETRIES:
+                time.sleep(YF_RETRY_DELAY)
+    if key in _yf_cache:
+        print(f"  ↩ Using stale cache for {symbol} {interval}")
+        return _yf_cache[key]["data"]
+    print(f"  ✖ Giving up on {symbol}: {last_err}")
+    return None
 
 def fetch_candles(symbol, interval, source="binance", output_size=220):
     if source == "binance":
@@ -413,6 +435,10 @@ def _run_once():
     print("="*55 + "\n")
 
 def main():
+    if RUN_ONCE:
+        print("🚀 Signal Engine — single run mode (GitHub Actions).")
+        _run_once()
+        return
     print("🚀 Signal Engine started. Press Ctrl+C to stop.")
     while True:
         try:
