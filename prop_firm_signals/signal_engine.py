@@ -299,6 +299,21 @@ def push_to_clickup(asset_name, signal):
 
 # MAIN
 
+def _print_alert(name, sig):
+    now_utc = datetime.now(timezone.utc).strftime(UTC_FMT)
+    print("\n" + "!"*55, flush=True)
+    print(f"  🚨 ALERT GENERATED — {now_utc}", flush=True)
+    print(f"  Asset     : {name}", flush=True)
+    print(f"  Direction : {sig['direction']}", flush=True)
+    print(f"  Conviction: {sig['conviction']}", flush=True)
+    print(f"  Price     : {sig['price']}", flush=True)
+    print(f"  TP        : {sig['tp_price']}  (+${sig['tp_dollar']})", flush=True)
+    print(f"  SL        : {sig['sl_price']}  (-${sig['sl_dollar']})", flush=True)
+    print(f"  RR        : 1:{sig['rr']}", flush=True)
+    print(f"  RSI       : {sig['rsi']}", flush=True)
+    print(f"  Volume    : {'Above Average' if sig['vol_above'] else 'Below Average'}", flush=True)
+    print("!"*55 + "\n", flush=True)
+
 def _heartbeat(stop_event, interval=30):
     start = time.time()
     while not stop_event.wait(interval):
@@ -312,8 +327,9 @@ def main():
     stop = threading.Event()
     threading.Thread(target=_heartbeat, args=(stop,), daemon=True).start()
 
-    history     = load_history()
-    candles_map = {}
+    history      = load_history()
+    candles_map  = {}
+    alerts_fired = 0
 
     for asset in ASSETS:
         name, symbol = asset["name"], asset["symbol"]
@@ -333,7 +349,8 @@ def main():
         vol = "▲" if sig["vol_above"] else "▼"
         print(f"  {sig['direction']} | Price:{sig['price']} | RSI:{sig['rsi']} | Vol:{vol}")
         if sig["direction"] in ("LONG", "SHORT"):
-            print(f"  Conviction:{sig['conviction']} TP:{sig['tp_price']} SL:{sig['sl_price']} RR:1:{sig['rr']}")
+            _print_alert(name, sig)
+            alerts_fired += 1
             history = record_signal(history, name, sig)
             push_to_clickup(name, sig)
         else:
@@ -344,7 +361,14 @@ def main():
 
     save_history(history)
     stop.set()
-    print(f"\n{'='*55}\nDone.\n{'='*55}\n")
+
+    print("\n" + "="*55)
+    if alerts_fired:
+        print(f"  ✅ {alerts_fired} alert(s) generated and pushed to ClickUp.")
+    else:
+        print("  💤 No signals found this run.")
+    print("  ⏳ Next scan in ~5 minutes.")
+    print("="*55 + "\n")
 
 if __name__ == "__main__":
     main()
