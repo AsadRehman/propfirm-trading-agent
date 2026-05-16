@@ -13,7 +13,10 @@ import sys
 import json
 import time
 import threading
+import smtplib
 import requests
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 from datetime import datetime, timezone
 from dotenv import load_dotenv
 
@@ -24,21 +27,22 @@ sys.stdout.reconfigure(line_buffering=True)
 load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env"))
 
 # --- Config ---
-UTC_FMT         = "%Y-%m-%d %H:%M UTC"
-CLICKUP_API_KEY = os.environ["CLICKUP_API_KEY"]
-CLICKUP_LIST_ID = os.environ["CLICKUP_LIST_ID"]
-HISTORY_FILE    = os.path.join(os.path.dirname(os.path.abspath(__file__)), "signal_history.json")
+UTC_FMT           = "%Y-%m-%d %H:%M UTC"
+EMAIL_SENDER      = os.environ["EMAIL_SENDER"]
+EMAIL_APP_PASSWORD= os.environ["EMAIL_APP_PASSWORD"]
+EMAIL_RECIPIENT   = os.environ["EMAIL_RECIPIENT"]
+HISTORY_FILE      = os.path.join(os.path.dirname(os.path.abspath(__file__)), "signal_history.json")
 
 ASSETS = [
-    {"name": "BTC",    "symbol": "BTCUSDT", "source": "binance"},
-    {"name": "ETH",    "symbol": "ETHUSDT", "source": "binance"},
-    {"name": "BCH",    "symbol": "BCHUSDT", "source": "binance"},
+    {"name": "BTC",    "symbol": "BTCUSDT", "source": "bybit"},
+    {"name": "ETH",    "symbol": "ETHUSDT", "source": "bybit"},
+    {"name": "BCH",    "symbol": "BCHUSDT", "source": "bybit"},
     {"name": "GOLD",   "symbol": "GC=F",    "source": "yfinance"},
     {"name": "SILVER", "symbol": "SI=F",    "source": "yfinance"},
     {"name": "OIL",    "symbol": "CL=F",    "source": "yfinance"},
 ]
 
-BINANCE_INTERVAL = {"15min": "15m", "4h": "4h"}
+BYBIT_INTERVAL   = {"15min": "15", "4h": "240"}  # Bybit uses minutes as integers
 YF_INTERVAL      = {"15min": "15m", "4h": "1h"}
 YF_PERIOD        = {"15min": "5d",  "4h": "60d"}
 CACHE_TTL      = 240  # seconds — reuse commodity data for 4 min
@@ -115,17 +119,24 @@ def volume_above_avg(volumes):
 
 # DATA FETCH
 
-def _fetch_binance(symbol, interval, limit=220):
-    url = "https://api.binance.com/api/v3/klines"
-    params = {"symbol": symbol, "interval": BINANCE_INTERVAL[interval], "limit": limit}
+def _fetch_bybit(symbol, interval, limit=220):
+    url    = "https://api.bybit.com/v5/market/kline"
+    params = {"category": "spot", "symbol": symbol,
+              "interval": BYBIT_INTERVAL[interval], "limit": limit}
     try:
         resp = requests.get(url, params=params, timeout=15)
         resp.raise_for_status()
-        return [{"open":   float(k[1]), "high":   float(k[2]),
-                 "low":    float(k[3]), "close":  float(k[4]),
-                 "volume": float(k[5])} for k in resp.json()]
+        data = resp.json()
+        if data.get("retCode") != 0:
+            print(f"  ⚠ Bybit error {symbol}: {data.get('retMsg')}")
+            return None
+        # Bybit returns newest-first — reverse to oldest-first
+        candles = list(reversed(data["result"]["list"]))
+        return [{"open":   float(k[1]), "high": float(k[2]),
+                 "low":    float(k[3]), "close": float(k[4]),
+                 "volume": float(k[5])} for k in candles]
     except Exception as e:
-        print(f"  ⚠ Binance error {symbol}: {e}")
+        print(f"  ⚠ Bybit error {symbol}: {e}")
         return None
 
 def _refresh_yf_crumb():
@@ -195,9 +206,9 @@ def _fetch_yfinance(symbol, interval, output_size=220):
     print(f"  ✖ Giving up on {symbol}: {last_err}")
     return None
 
-def fetch_candles(symbol, interval, source="binance", output_size=220):
-    if source == "binance":
-        return _fetch_binance(symbol, interval, output_size)
+def fetch_candles(symbol, interval, source="bybit", output_size=220):
+    if source == "bybit":
+        return _fetch_bybit(symbol, interval, output_size)
     return _fetch_yfinance(symbol, interval, output_size)
 
 # SIGNAL ANALYSIS HELPERS
@@ -412,31 +423,40 @@ def record_signal(history, asset_name, signal):
     })
     return history
 
-# CLICKUP
+# EMAIL ALERT
 
-def push_to_clickup(asset_name, signal):
+def send_email_alert(asset_name, signal):
     now_utc = datetime.now(timezone.utc).strftime(UTC_FMT)
     vol     = "Above Average" if signal["vol_above"] else "Below Average"
-    desc = (f"Asset: {asset_name}\n"
-            f"Direction: {signal['direction']}\n"
-            f"Conviction: {signal.get('conviction', '—')}\n"
-            f"Entry Price: {signal['price']}\n"
-            f"TP: {signal['tp_price']} (+${signal['tp_dollar']})\n"
-            f"SL: {signal['sl_price']} (-${signal['sl_dollar']})\n"
-            f"RR: 1:{signal['rr']}\n"
-            f"RSI: {signal['rsi']}\n"
-            f"Volume: {vol}\n"
-            f"Signal Time: {now_utc}")
-    resp = requests.post(
-        f"https://api.clickup.com/api/v2/list/{CLICKUP_LIST_ID}/task",
-        headers={"Content-Type": "application/json", "Authorization": CLICKUP_API_KEY},
-        json={"name": f"🔔 {asset_name} — {signal['direction']} ({signal.get('conviction', '—')})",
-              "description": desc, "status": "to do"},
-        timeout=10)
-    if resp.status_code in (200, 201):
-        print("  ✅ ClickUp task created")
-    else:
-        print(f"  ❌ ClickUp error: {resp.status_code} — {resp.text}")
+    subject = f"🔔 {asset_name} — {signal['direction']} ({signal.get('conviction', '—')})"
+    body = (
+        f"TRADING SIGNAL ALERT\n"
+        f"{'='*40}\n"
+        f"Asset      : {asset_name}\n"
+        f"Direction  : {signal['direction']}\n"
+        f"Conviction : {signal.get('conviction', '—')}\n"
+        f"Entry Price: {signal['price']}\n"
+        f"TP         : {signal['tp_price']}  (+${signal['tp_dollar']})\n"
+        f"SL         : {signal['sl_price']}  (-${signal['sl_dollar']})\n"
+        f"R:R        : 1:{signal['rr']}\n"
+        f"RSI        : {signal['rsi']}\n"
+        f"Volume     : {vol}\n"
+        f"Time (UTC) : {now_utc}\n"
+        f"{'='*40}\n"
+    )
+    msg = MIMEMultipart()
+    msg["From"]    = EMAIL_SENDER
+    msg["To"]      = EMAIL_RECIPIENT
+    msg["Subject"] = subject
+    msg.attach(MIMEText(body, "plain"))
+    try:
+        with smtplib.SMTP("smtp.gmail.com", 587) as smtp:
+            smtp.starttls()
+            smtp.login(EMAIL_SENDER, EMAIL_APP_PASSWORD)
+            smtp.sendmail(EMAIL_SENDER, EMAIL_RECIPIENT, msg.as_string())
+        print(f"  ✅ Email alert sent to {EMAIL_RECIPIENT}")
+    except Exception as e:
+        print(f"  ❌ Email error: {e}")
 
 # MAIN
 
@@ -493,7 +513,7 @@ def _run_once():
             _print_alert(name, sig)
             alerts_fired += 1
             history = record_signal(history, name, sig)
-            push_to_clickup(name, sig)
+            send_email_alert(name, sig)
         else:
             print(f"  → {sig['direction']}")
 
