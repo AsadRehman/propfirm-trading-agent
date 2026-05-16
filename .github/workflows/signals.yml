@@ -38,6 +38,6 @@ jobs:
         run: |
           git config user.name "Signal Bot"
           git config user.email "bot@prop-signals.com"
-          git add prop_firm_signals/signal_history.json prop_firm_signals/run_log.json
+          git add prop_firm_signals/signal_history.json
           git diff --staged --quiet || git commit -m "update signal history [skip ci]"
           git push
