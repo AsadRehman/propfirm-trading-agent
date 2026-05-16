@@ -19,7 +19,7 @@ from datetime import datetime, timezone
 TWELVE_DATA_KEY = os.environ["TWELVE_DATA_API_KEY"]
 CLICKUP_API_KEY = os.environ["CLICKUP_API_KEY"]
 CLICKUP_LIST_ID = os.environ["CLICKUP_LIST_ID"]
-HISTORY_FILE    = "signal_history.json"
+HISTORY_FILE    = os.path.join(os.path.dirname(os.path.abspath(__file__)), "signal_history.json")
 
 ASSETS = [
     {"name": "BTC",    "symbol": "BTC/USD"},
