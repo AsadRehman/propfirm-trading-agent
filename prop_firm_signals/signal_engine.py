@@ -34,15 +34,15 @@ EMAIL_RECIPIENT   = os.environ["EMAIL_RECIPIENT"]
 HISTORY_FILE      = os.path.join(os.path.dirname(os.path.abspath(__file__)), "signal_history.json")
 
 ASSETS = [
-    {"name": "BTC",    "symbol": "BTCUSDT", "source": "bybit"},
-    {"name": "ETH",    "symbol": "ETHUSDT", "source": "bybit"},
-    {"name": "BCH",    "symbol": "BCHUSDT", "source": "bybit"},
+    {"name": "BTC",    "symbol": "XBTUSD",  "source": "kraken"},
+    {"name": "ETH",    "symbol": "ETHUSD",  "source": "kraken"},
+    {"name": "BCH",    "symbol": "BCHUSD",  "source": "kraken"},
     {"name": "GOLD",   "symbol": "GC=F",    "source": "yfinance"},
     {"name": "SILVER", "symbol": "SI=F",    "source": "yfinance"},
     {"name": "OIL",    "symbol": "CL=F",    "source": "yfinance"},
 ]
 
-BYBIT_INTERVAL   = {"15min": "15", "4h": "240"}  # Bybit uses minutes as integers
+KRAKEN_INTERVAL  = {"15min": 15, "4h": 240}  # Kraken interval in minutes
 YF_INTERVAL      = {"15min": "15m", "4h": "1h"}
 YF_PERIOD        = {"15min": "5d",  "4h": "60d"}
 CACHE_TTL      = 240  # seconds — reuse commodity data for 4 min
@@ -119,24 +119,25 @@ def volume_above_avg(volumes):
 
 # DATA FETCH
 
-def _fetch_bybit(symbol, interval, limit=220):
-    url    = "https://api.bybit.com/v5/market/kline"
-    params = {"category": "spot", "symbol": symbol,
-              "interval": BYBIT_INTERVAL[interval], "limit": limit}
+def _fetch_kraken(pair, interval, limit=220):
+    url    = "https://api.kraken.com/0/public/OHLC"
+    params = {"pair": pair, "interval": KRAKEN_INTERVAL[interval]}
     try:
         resp = requests.get(url, params=params, timeout=15)
         resp.raise_for_status()
         data = resp.json()
-        if data.get("retCode") != 0:
-            print(f"  ⚠ Bybit error {symbol}: {data.get('retMsg')}")
+        if data.get("error"):
+            print(f"  ⚠ Kraken error {pair}: {data['error']}")
             return None
-        # Bybit returns newest-first — reverse to oldest-first
-        candles = list(reversed(data["result"]["list"]))
+        # result contains pair key + "last" key — pick the data key
+        pair_key = next(k for k in data["result"] if k != "last")
+        candles  = data["result"][pair_key][-limit:]
+        # Kraken OHLC row: [time, open, high, low, close, vwap, volume, count]
         return [{"open":   float(k[1]), "high": float(k[2]),
                  "low":    float(k[3]), "close": float(k[4]),
-                 "volume": float(k[5])} for k in candles]
+                 "volume": float(k[6])} for k in candles]
     except Exception as e:
-        print(f"  ⚠ Bybit error {symbol}: {e}")
+        print(f"  ⚠ Kraken error {pair}: {e}")
         return None
 
 def _refresh_yf_crumb():
@@ -206,9 +207,9 @@ def _fetch_yfinance(symbol, interval, output_size=220):
     print(f"  ✖ Giving up on {symbol}: {last_err}")
     return None
 
-def fetch_candles(symbol, interval, source="bybit", output_size=220):
-    if source == "bybit":
-        return _fetch_bybit(symbol, interval, output_size)
+def fetch_candles(symbol, interval, source="kraken", output_size=220):
+    if source == "kraken":
+        return _fetch_kraken(symbol, interval, output_size)
     return _fetch_yfinance(symbol, interval, output_size)
 
 # SIGNAL ANALYSIS HELPERS
