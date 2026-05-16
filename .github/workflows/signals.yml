@@ -5,6 +5,9 @@ on:
     - cron: "*/15 * * * *"   # every 15 minutes, 24/7
   workflow_dispatch:           # manual trigger from GitHub UI
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   run-signals:
     runs-on: ubuntu-latest
@@ -24,6 +27,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Run signal engine
+        working-directory: prop_firm_signals
         env:
           TWELVE_DATA_API_KEY: ${{ secrets.TWELVE_DATA_API_KEY }}
           CLICKUP_API_KEY: ${{ secrets.CLICKUP_API_KEY }}
@@ -34,6 +38,6 @@ jobs:
         run: |
           git config user.name "Signal Bot"
           git config user.email "bot@prop-signals.com"
-          git add signal_history.json dashboard.html
+          git add prop_firm_signals/signal_history.json prop_firm_signals/dashboard.html
           git diff --staged --quiet || git commit -m "update signals & dashboard [skip ci]"
           git push
