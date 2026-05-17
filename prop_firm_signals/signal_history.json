@@ -1,5 +1,23 @@
 [
   {
+    "id": "BTC_20260517_2310",
+    "asset": "BTC",
+    "direction": "SHORT",
+    "conviction": "MC",
+    "price": 77812.8,
+    "tp_price": 76256.544,
+    "sl_price": 78850.0446,
+    "tp_dollar": 20,
+    "sl_dollar": 13.33,
+    "rr": 1.5,
+    "rsi": 33.51,
+    "vol_above": false,
+    "signal_time": "2026-05-17 23:10 UTC",
+    "outcome": "PENDING",
+    "outcome_time": null,
+    "outcome_price": null
+  },
+  {
     "id": "OIL_20260517_2300",
     "asset": "OIL",
     "direction": "LONG",
@@ -373,9 +391,9 @@
     "rsi": 37.48,
     "vol_above": false,
     "signal_time": "2026-05-17 01:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-05-17 23:10 UTC",
+    "outcome_price": 407.092
   },
   {
     "id": "BCH_20260517_0000",
@@ -391,9 +409,9 @@
     "rsi": 42.37,
     "vol_above": false,
     "signal_time": "2026-05-17 00:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-05-17 23:10 UTC",
+    "outcome_price": 407.6212
   },
   {
     "id": "BCH_20260516_2300",
@@ -409,9 +427,9 @@
     "rsi": 36.37,
     "vol_above": false,
     "signal_time": "2026-05-16 23:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-05-17 23:10 UTC",
+    "outcome_price": 407.1802
   },
   {
     "id": "ETH_20260516_1700",
