@@ -1,5 +1,23 @@
 [
   {
+    "id": "OIL_20260518_2105",
+    "asset": "OIL",
+    "direction": "LONG",
+    "conviction": "MC",
+    "price": 102.44,
+    "tp_price": 104.4888,
+    "sl_price": 101.0745,
+    "tp_dollar": 20,
+    "sl_dollar": 13.33,
+    "rr": 1.5,
+    "rsi": 50.22,
+    "vol_above": false,
+    "signal_time": "2026-05-18 21:05 UTC",
+    "outcome": "SL",
+    "outcome_time": "2026-05-18 21:05 UTC",
+    "outcome_price": 101.0745
+  },
+  {
     "id": "OIL_20260518_1900",
     "asset": "OIL",
     "direction": "LONG",
