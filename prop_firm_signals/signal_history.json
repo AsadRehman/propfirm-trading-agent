@@ -1,5 +1,23 @@
 [
   {
+    "id": "ETH_20260518_1435",
+    "asset": "ETH",
+    "direction": "SHORT",
+    "conviction": "MC",
+    "price": 2100.58,
+    "tp_price": 2058.5684,
+    "sl_price": 2128.5807,
+    "tp_dollar": 20,
+    "sl_dollar": 13.33,
+    "rr": 1.5,
+    "rsi": 34.09,
+    "vol_above": false,
+    "signal_time": "2026-05-18 14:35 UTC",
+    "outcome": "SL",
+    "outcome_time": "2026-05-18 14:35 UTC",
+    "outcome_price": 2128.5807
+  },
+  {
     "id": "BTC_20260518_1430",
     "asset": "BTC",
     "direction": "SHORT",
@@ -1093,9 +1111,9 @@
     "rsi": 33.51,
     "vol_above": false,
     "signal_time": "2026-05-17 23:10 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-05-18 14:35 UTC",
+    "outcome_price": 76256.544
   },
   {
     "id": "OIL_20260517_2300",
