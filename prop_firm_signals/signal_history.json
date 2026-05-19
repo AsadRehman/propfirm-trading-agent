@@ -1,5 +1,23 @@
 [
   {
+    "id": "OIL_20260519_1715",
+    "asset": "OIL",
+    "direction": "LONG",
+    "conviction": "MC",
+    "price": 103.93,
+    "tp_price": 106.0086,
+    "sl_price": 102.5446,
+    "tp_dollar": 20,
+    "sl_dollar": 13.33,
+    "rr": 1.5,
+    "rsi": 55.2,
+    "vol_above": false,
+    "signal_time": "2026-05-19 17:15 UTC",
+    "outcome": "PENDING",
+    "outcome_time": null,
+    "outcome_price": null
+  },
+  {
     "id": "BCH_20260519_1710",
     "asset": "BCH",
     "direction": "SHORT",
