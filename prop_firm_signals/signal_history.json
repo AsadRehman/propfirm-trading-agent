@@ -1,5 +1,23 @@
 [
   {
+    "id": "SILVER_20260519_1150",
+    "asset": "SILVER",
+    "direction": "SHORT",
+    "conviction": "MC",
+    "price": 76.27,
+    "tp_price": 74.7446,
+    "sl_price": 77.2867,
+    "tp_dollar": 20,
+    "sl_dollar": 13.33,
+    "rr": 1.5,
+    "rsi": 45.86,
+    "vol_above": true,
+    "signal_time": "2026-05-19 11:50 UTC",
+    "outcome": "SL",
+    "outcome_time": "2026-05-19 11:50 UTC",
+    "outcome_price": 77.2867
+  },
+  {
     "id": "BTC_20260519_1145",
     "asset": "BTC",
     "direction": "SHORT",
