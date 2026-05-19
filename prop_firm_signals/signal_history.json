@@ -1,5 +1,23 @@
 [
   {
+    "id": "BCH_20260519_1930",
+    "asset": "BCH",
+    "direction": "SHORT",
+    "conviction": "MC",
+    "price": 367.76,
+    "tp_price": 360.4048,
+    "sl_price": 372.6622,
+    "tp_dollar": 20,
+    "sl_dollar": 13.33,
+    "rr": 1.5,
+    "rsi": 40.7,
+    "vol_above": false,
+    "signal_time": "2026-05-19 19:30 UTC",
+    "outcome": "SL",
+    "outcome_time": "2026-05-19 19:30 UTC",
+    "outcome_price": 372.6622
+  },
+  {
     "id": "OIL_20260519_1900",
     "asset": "OIL",
     "direction": "LONG",
