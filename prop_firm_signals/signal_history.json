@@ -1,5 +1,23 @@
 [
   {
+    "id": "GOLD_20260519_1210",
+    "asset": "GOLD",
+    "direction": "SHORT",
+    "conviction": "MC",
+    "price": 4533.8999,
+    "tp_price": 4443.2219,
+    "sl_price": 4594.3368,
+    "tp_dollar": 20,
+    "sl_dollar": 13.33,
+    "rr": 1.5,
+    "rsi": 41.9,
+    "vol_above": false,
+    "signal_time": "2026-05-19 12:10 UTC",
+    "outcome": "PENDING",
+    "outcome_time": null,
+    "outcome_price": null
+  },
+  {
     "id": "SILVER_20260519_1205",
     "asset": "SILVER",
     "direction": "SHORT",
