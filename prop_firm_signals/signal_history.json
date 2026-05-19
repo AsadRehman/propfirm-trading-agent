@@ -1,5 +1,23 @@
 [
   {
+    "id": "ETH_20260519_1610",
+    "asset": "ETH",
+    "direction": "SHORT",
+    "conviction": "MC",
+    "price": 2106.28,
+    "tp_price": 2064.1544,
+    "sl_price": 2134.3567,
+    "tp_dollar": 20,
+    "sl_dollar": 13.33,
+    "rr": 1.5,
+    "rsi": 42.35,
+    "vol_above": false,
+    "signal_time": "2026-05-19 16:10 UTC",
+    "outcome": "SL",
+    "outcome_time": "2026-05-19 16:10 UTC",
+    "outcome_price": 2134.3567
+  },
+  {
     "id": "SILVER_20260519_1600",
     "asset": "SILVER",
     "direction": "SHORT",
