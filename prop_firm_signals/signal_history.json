@@ -157,9 +157,9 @@
     "rsi": 37.94,
     "vol_above": false,
     "signal_time": "2026-05-20 05:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "SL",
+    "outcome_time": "2026-05-20 14:40 UTC",
+    "outcome_price": 4521.8837
   },
   {
     "id": "BCH_20260520_0445",
@@ -211,9 +211,9 @@
     "rsi": 35.8,
     "vol_above": false,
     "signal_time": "2026-05-20 04:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "SL",
+    "outcome_time": "2026-05-20 14:40 UTC",
+    "outcome_price": 4520.7689
   },
   {
     "id": "SILVER_20260520_0300",
@@ -247,9 +247,9 @@
     "rsi": 36.01,
     "vol_above": true,
     "signal_time": "2026-05-20 03:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "SL",
+    "outcome_time": "2026-05-20 14:40 UTC",
+    "outcome_price": 4521.0152
   },
   {
     "id": "SILVER_20260520_0200",
