@@ -1,5 +1,23 @@
 [
   {
+    "id": "ETH_20260520_0130",
+    "asset": "ETH",
+    "direction": "SHORT",
+    "conviction": "MC",
+    "price": 2101.81,
+    "tp_price": 2059.7738,
+    "sl_price": 2129.8271,
+    "tp_dollar": 20,
+    "sl_dollar": 13.33,
+    "rr": 1.5,
+    "rsi": 41.24,
+    "vol_above": false,
+    "signal_time": "2026-05-20 01:30 UTC",
+    "outcome": "PENDING",
+    "outcome_time": null,
+    "outcome_price": null
+  },
+  {
     "id": "SILVER_20260520_0020",
     "asset": "SILVER",
     "direction": "SHORT",
