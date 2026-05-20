@@ -121,9 +121,9 @@
     "rsi": 42.75,
     "vol_above": false,
     "signal_time": "2026-05-20 06:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "SL",
+    "outcome_time": "2026-05-20 14:45 UTC",
+    "outcome_price": 4527.2546
   },
   {
     "id": "SILVER_20260520_0500",
