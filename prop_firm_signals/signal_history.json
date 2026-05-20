@@ -1,5 +1,23 @@
 [
   {
+    "id": "BTC_20260520_0145",
+    "asset": "BTC",
+    "direction": "SHORT",
+    "conviction": "MC",
+    "price": 76519.0,
+    "tp_price": 74988.62,
+    "sl_price": 77538.9983,
+    "tp_dollar": 20,
+    "sl_dollar": 13.33,
+    "rr": 1.5,
+    "rsi": 42.34,
+    "vol_above": false,
+    "signal_time": "2026-05-20 01:45 UTC",
+    "outcome": "PENDING",
+    "outcome_time": null,
+    "outcome_price": null
+  },
+  {
     "id": "SILVER_20260520_0140",
     "asset": "SILVER",
     "direction": "SHORT",
