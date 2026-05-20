@@ -139,9 +139,9 @@
     "rsi": 42.73,
     "vol_above": false,
     "signal_time": "2026-05-20 11:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "SL",
+    "outcome_time": "2026-05-20 17:25 UTC",
+    "outcome_price": 372.9561
   },
   {
     "id": "BCH_20260520_1000",
@@ -157,9 +157,9 @@
     "rsi": 41.79,
     "vol_above": true,
     "signal_time": "2026-05-20 10:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "SL",
+    "outcome_time": "2026-05-20 17:25 UTC",
+    "outcome_price": 372.9966
   },
   {
     "id": "GOLD_20260520_0600",
