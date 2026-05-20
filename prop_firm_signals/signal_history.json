@@ -1,5 +1,23 @@
 [
   {
+    "id": "BCH_20260520_1300",
+    "asset": "BCH",
+    "direction": "SHORT",
+    "conviction": "MC",
+    "price": 365.95,
+    "tp_price": 358.631,
+    "sl_price": 370.8281,
+    "tp_dollar": 20,
+    "sl_dollar": 13.33,
+    "rr": 1.5,
+    "rsi": 37.84,
+    "vol_above": false,
+    "signal_time": "2026-05-20 13:00 UTC",
+    "outcome": "SL",
+    "outcome_time": "2026-05-20 13:00 UTC",
+    "outcome_price": 370.8281
+  },
+  {
     "id": "BCH_20260520_1200",
     "asset": "BCH",
     "direction": "SHORT",
@@ -1075,9 +1093,9 @@
     "rsi": 42.31,
     "vol_above": false,
     "signal_time": "2026-05-19 14:15 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "SL",
+    "outcome_time": "2026-05-20 13:00 UTC",
+    "outcome_price": 77582.8755
   },
   {
     "id": "ETH_20260519_1410",
@@ -1165,9 +1183,9 @@
     "rsi": 40.54,
     "vol_above": false,
     "signal_time": "2026-05-19 13:30 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "SL",
+    "outcome_time": "2026-05-20 13:00 UTC",
+    "outcome_price": 77589.2594
   },
   {
     "id": "OIL_20260519_1325",
@@ -1363,9 +1381,9 @@
     "rsi": 39.73,
     "vol_above": false,
     "signal_time": "2026-05-19 11:45 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "SL",
+    "outcome_time": "2026-05-20 13:00 UTC",
+    "outcome_price": 77619.4567
   },
   {
     "id": "OIL_20260519_1100",
@@ -1939,9 +1957,9 @@
     "rsi": 39.46,
     "vol_above": false,
     "signal_time": "2026-05-19 02:55 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "SL",
+    "outcome_time": "2026-05-20 13:00 UTC",
+    "outcome_price": 77581.0515
   },
   {
     "id": "OIL_20260519_0245",
