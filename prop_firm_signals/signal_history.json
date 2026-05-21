@@ -1,5 +1,23 @@
 [
   {
+    "id": "SILVER_20260521_0710",
+    "asset": "SILVER",
+    "direction": "SHORT",
+    "conviction": "MC",
+    "price": 75.235,
+    "tp_price": 73.7303,
+    "sl_price": 76.2379,
+    "tp_dollar": 20,
+    "sl_dollar": 13.33,
+    "rr": 1.5,
+    "rsi": 38.4,
+    "vol_above": true,
+    "signal_time": "2026-05-21 07:10 UTC",
+    "outcome": "SL",
+    "outcome_time": "2026-05-21 07:10 UTC",
+    "outcome_price": 76.2379
+  },
+  {
     "id": "ETH_20260521_0700",
     "asset": "ETH",
     "direction": "SHORT",
