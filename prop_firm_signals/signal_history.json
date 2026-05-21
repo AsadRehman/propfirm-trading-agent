@@ -1,5 +1,23 @@
 [
   {
+    "id": "SILVER_20260521_1040",
+    "asset": "SILVER",
+    "direction": "SHORT",
+    "conviction": "HC",
+    "price": 75.07,
+    "tp_price": 73.1932,
+    "sl_price": 76.0084,
+    "tp_dollar": 25,
+    "sl_dollar": 12.5,
+    "rr": 2.0,
+    "rsi": 39.03,
+    "vol_above": true,
+    "signal_time": "2026-05-21 10:40 UTC",
+    "outcome": "SL",
+    "outcome_time": "2026-05-21 10:40 UTC",
+    "outcome_price": 76.0084
+  },
+  {
     "id": "OIL_20260521_1000",
     "asset": "OIL",
     "direction": "SHORT",
