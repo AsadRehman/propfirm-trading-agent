@@ -31,9 +31,9 @@
     "rsi": 33.73,
     "vol_above": false,
     "signal_time": "2026-05-20 22:10 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "SL",
+    "outcome_time": "2026-05-21 01:15 UTC",
+    "outcome_price": 2147.4287
   },
   {
     "id": "OIL_20260520_1900",
@@ -2587,9 +2587,9 @@
     "rsi": 46.2,
     "vol_above": true,
     "signal_time": "2026-05-18 13:40 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "SL",
+    "outcome_time": "2026-05-21 01:15 UTC",
+    "outcome_price": 78007.2581
   },
   {
     "id": "OIL_20260518_1300",
