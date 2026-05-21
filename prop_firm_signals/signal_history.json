@@ -1,5 +1,23 @@
 [
   {
+    "id": "BTC_20260521_1645",
+    "asset": "BTC",
+    "direction": "SHORT",
+    "conviction": "MC",
+    "price": 76982.9,
+    "tp_price": 75443.242,
+    "sl_price": 78009.0821,
+    "tp_dollar": 20,
+    "sl_dollar": 13.33,
+    "rr": 1.5,
+    "rsi": 41.76,
+    "vol_above": false,
+    "signal_time": "2026-05-21 16:45 UTC",
+    "outcome": "SL",
+    "outcome_time": "2026-05-21 16:45 UTC",
+    "outcome_price": 78009.0821
+  },
+  {
     "id": "OIL_20260521_1510",
     "asset": "OIL",
     "direction": "LONG",
