@@ -103,9 +103,9 @@
     "rsi": 38.2,
     "vol_above": false,
     "signal_time": "2026-05-22 18:35 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-05-22 19:35 UTC",
+    "outcome_price": 2071.0438
   },
   {
     "id": "OIL_20260522_1800",
@@ -211,9 +211,9 @@
     "rsi": 43.48,
     "vol_above": false,
     "signal_time": "2026-05-22 16:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-05-22 19:35 UTC",
+    "outcome_price": 2075.738
   },
   {
     "id": "BTC_20260522_1600",
@@ -301,9 +301,9 @@
     "rsi": 33.78,
     "vol_above": false,
     "signal_time": "2026-05-22 15:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-05-22 19:35 UTC",
+    "outcome_price": 2070.4852
   },
   {
     "id": "BTC_20260522_1500",
@@ -337,9 +337,9 @@
     "rsi": 35.61,
     "vol_above": false,
     "signal_time": "2026-05-22 14:30 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-05-22 19:35 UTC",
+    "outcome_price": 2073.4252
   },
   {
     "id": "SILVER_20260522_1425",
@@ -499,9 +499,9 @@
     "rsi": 33.92,
     "vol_above": false,
     "signal_time": "2026-05-22 09:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-05-22 19:35 UTC",
+    "outcome_price": 2075.9144
   },
   {
     "id": "ETH_20260522_0810",
