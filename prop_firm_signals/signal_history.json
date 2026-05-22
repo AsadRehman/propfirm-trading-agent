@@ -1,5 +1,23 @@
 [
   {
+    "id": "BCH_20260522_1850",
+    "asset": "BCH",
+    "direction": "SHORT",
+    "conviction": "MC",
+    "price": 374.89,
+    "tp_price": 367.3922,
+    "sl_price": 379.8873,
+    "tp_dollar": 20,
+    "sl_dollar": 13.33,
+    "rr": 1.5,
+    "rsi": 28.31,
+    "vol_above": false,
+    "signal_time": "2026-05-22 18:50 UTC",
+    "outcome": "SL",
+    "outcome_time": "2026-05-22 18:50 UTC",
+    "outcome_price": 379.8873
+  },
+  {
     "id": "ETH_20260522_1835",
     "asset": "ETH",
     "direction": "SHORT",
@@ -481,9 +499,9 @@
     "rsi": 38.15,
     "vol_above": false,
     "signal_time": "2026-05-22 06:30 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-05-22 18:50 UTC",
+    "outcome_price": 2082.9214
   },
   {
     "id": "GOLD_20260522_0610",
@@ -1273,9 +1291,9 @@
     "rsi": 34.88,
     "vol_above": false,
     "signal_time": "2026-05-21 06:45 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-05-22 18:50 UTC",
+    "outcome_price": 2086.7924
   },
   {
     "id": "OIL_20260521_0205",
