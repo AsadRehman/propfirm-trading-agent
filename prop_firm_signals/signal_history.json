@@ -1,5 +1,23 @@
 [
   {
+    "id": "SILVER_20260522_1940",
+    "asset": "SILVER",
+    "direction": "SHORT",
+    "conviction": "MC",
+    "price": 75.855,
+    "tp_price": 74.3379,
+    "sl_price": 76.8662,
+    "tp_dollar": 20,
+    "sl_dollar": 13.33,
+    "rr": 1.5,
+    "rsi": 41.1,
+    "vol_above": true,
+    "signal_time": "2026-05-22 19:40 UTC",
+    "outcome": "PENDING",
+    "outcome_time": null,
+    "outcome_price": null
+  },
+  {
     "id": "OIL_20260522_1900",
     "asset": "OIL",
     "direction": "SHORT",
