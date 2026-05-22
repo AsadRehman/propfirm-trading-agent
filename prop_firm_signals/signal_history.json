@@ -463,9 +463,9 @@
     "rsi": 41.37,
     "vol_above": false,
     "signal_time": "2026-05-22 11:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-05-22 19:30 UTC",
+    "outcome_price": 2078.5898
   },
   {
     "id": "ETH_20260522_1000",
@@ -481,9 +481,9 @@
     "rsi": 39.59,
     "vol_above": false,
     "signal_time": "2026-05-22 10:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-05-22 19:30 UTC",
+    "outcome_price": 2078.2762
   },
   {
     "id": "ETH_20260522_0900",
@@ -517,9 +517,9 @@
     "rsi": 39.75,
     "vol_above": false,
     "signal_time": "2026-05-22 08:10 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-05-22 19:30 UTC",
+    "outcome_price": 2081.8924
   },
   {
     "id": "BCH_20260522_0700",
@@ -553,9 +553,9 @@
     "rsi": 34.46,
     "vol_above": false,
     "signal_time": "2026-05-22 07:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-05-22 19:30 UTC",
+    "outcome_price": 2080.8634
   },
   {
     "id": "ETH_20260522_0630",
