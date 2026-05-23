@@ -535,9 +535,9 @@
     "rsi": 37.76,
     "vol_above": false,
     "signal_time": "2026-05-22 18:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-05-23 00:45 UTC",
+    "outcome_price": 75145.616
   },
   {
     "id": "BTC_20260522_1720",
