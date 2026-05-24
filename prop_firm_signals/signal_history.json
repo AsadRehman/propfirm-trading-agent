@@ -1,5 +1,23 @@
 [
   {
+    "id": "BTC_20260524_1720",
+    "asset": "BTC",
+    "direction": "SHORT",
+    "conviction": "MC",
+    "price": 76487.3,
+    "tp_price": 74957.554,
+    "sl_price": 77506.8757,
+    "tp_dollar": 20,
+    "sl_dollar": 13.33,
+    "rr": 1.5,
+    "rsi": 44.22,
+    "vol_above": false,
+    "signal_time": "2026-05-24 17:20 UTC",
+    "outcome": "PENDING",
+    "outcome_time": null,
+    "outcome_price": null
+  },
+  {
     "id": "BCH_20260524_1715",
     "asset": "BCH",
     "direction": "SHORT",
