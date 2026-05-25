@@ -1,5 +1,23 @@
 [
   {
+    "id": "BCH_20260525_1400",
+    "asset": "BCH",
+    "direction": "SHORT",
+    "conviction": "MC",
+    "price": 348.45,
+    "tp_price": 341.481,
+    "sl_price": 353.0948,
+    "tp_dollar": 20,
+    "sl_dollar": 13.33,
+    "rr": 1.5,
+    "rsi": 41.64,
+    "vol_above": false,
+    "signal_time": "2026-05-25 14:00 UTC",
+    "outcome": "PENDING",
+    "outcome_time": null,
+    "outcome_price": null
+  },
+  {
     "id": "BCH_20260525_1335",
     "asset": "BCH",
     "direction": "SHORT",
