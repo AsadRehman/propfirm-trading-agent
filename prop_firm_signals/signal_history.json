@@ -1,5 +1,23 @@
 [
   {
+    "id": "ETH_20260527_2135",
+    "asset": "ETH",
+    "direction": "SHORT",
+    "conviction": "MC",
+    "price": 2047.85,
+    "tp_price": 2006.893,
+    "sl_price": 2075.1478,
+    "tp_dollar": 20,
+    "sl_dollar": 13.33,
+    "rr": 1.5,
+    "rsi": 39.46,
+    "vol_above": true,
+    "signal_time": "2026-05-27 21:35 UTC",
+    "outcome": "SL",
+    "outcome_time": "2026-05-27 21:35 UTC",
+    "outcome_price": 2075.1478
+  },
+  {
     "id": "BTC_20260527_1950",
     "asset": "BTC",
     "direction": "SHORT",
