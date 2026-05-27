@@ -1,5 +1,23 @@
 [
   {
+    "id": "ETH_20260527_1910",
+    "asset": "ETH",
+    "direction": "SHORT",
+    "conviction": "MC",
+    "price": 2052.34,
+    "tp_price": 2011.2932,
+    "sl_price": 2079.6977,
+    "tp_dollar": 20,
+    "sl_dollar": 13.33,
+    "rr": 1.5,
+    "rsi": 42.91,
+    "vol_above": false,
+    "signal_time": "2026-05-27 19:10 UTC",
+    "outcome": "SL",
+    "outcome_time": "2026-05-27 19:10 UTC",
+    "outcome_price": 2079.6977
+  },
+  {
     "id": "OIL_20260527_1900",
     "asset": "OIL",
     "direction": "SHORT",
