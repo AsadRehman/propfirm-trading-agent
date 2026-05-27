@@ -6241,9 +6241,9 @@
     "rsi": 41.9,
     "vol_above": false,
     "signal_time": "2026-05-19 12:10 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-05-27 13:20 UTC",
+    "outcome_price": 4443.2219
   },
   {
     "id": "SILVER_20260519_1205",
@@ -6385,9 +6385,9 @@
     "rsi": 42.01,
     "vol_above": false,
     "signal_time": "2026-05-19 11:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-05-27 13:20 UTC",
+    "outcome_price": 4447.3381
   },
   {
     "id": "BCH_20260519_1100",
@@ -6457,9 +6457,9 @@
     "rsi": 37.06,
     "vol_above": false,
     "signal_time": "2026-05-19 10:55 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-05-27 13:20 UTC",
+    "outcome_price": 4442.34
   },
   {
     "id": "SILVER_20260519_1000",
@@ -6727,9 +6727,9 @@
     "rsi": 33.21,
     "vol_above": true,
     "signal_time": "2026-05-19 06:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-05-27 13:20 UTC",
+    "outcome_price": 4446.9462
   },
   {
     "id": "OIL_20260519_0500",
@@ -6781,9 +6781,9 @@
     "rsi": 35.33,
     "vol_above": true,
     "signal_time": "2026-05-19 05:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-05-27 13:20 UTC",
+    "outcome_price": 4453.0219
   },
   {
     "id": "GOLD_20260519_0420",
@@ -6799,9 +6799,9 @@
     "rsi": 35.07,
     "vol_above": true,
     "signal_time": "2026-05-19 04:20 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-05-27 13:20 UTC",
+    "outcome_price": 4454.1
   },
   {
     "id": "OIL_20260519_0413",
@@ -7177,9 +7177,9 @@
     "rsi": 41.96,
     "vol_above": false,
     "signal_time": "2026-05-18 16:40 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-05-27 13:20 UTC",
+    "outcome_price": 4449.4938
   },
   {
     "id": "BCH_20260518_1635",
@@ -8293,9 +8293,9 @@
     "rsi": 39.9,
     "vol_above": true,
     "signal_time": "2026-05-18 00:15 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-05-27 13:20 UTC",
+    "outcome_price": 4444.1038
   },
   {
     "id": "OIL_20260518_0000",
@@ -8383,9 +8383,9 @@
     "rsi": 41.84,
     "vol_above": true,
     "signal_time": "2026-05-17 23:40 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-05-27 13:20 UTC",
+    "outcome_price": 4449.2
   },
   {
     "id": "SILVER_20260517_2320",
