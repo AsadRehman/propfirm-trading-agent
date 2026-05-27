@@ -121,9 +121,9 @@
     "rsi": 40.63,
     "vol_above": false,
     "signal_time": "2026-05-27 14:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "SL",
+    "outcome_time": "2026-05-27 15:20 UTC",
+    "outcome_price": 345.4543
   },
   {
     "id": "ETH_20260527_1400",
