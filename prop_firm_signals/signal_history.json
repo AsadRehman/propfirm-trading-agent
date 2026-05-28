@@ -1,5 +1,41 @@
 [
   {
+    "id": "OIL_20260528_0400",
+    "asset": "OIL",
+    "direction": "SHORT",
+    "conviction": "MC",
+    "price": 92.04,
+    "tp_price": 90.1992,
+    "sl_price": 93.2669,
+    "tp_dollar": 20,
+    "sl_dollar": 13.33,
+    "rr": 1.5,
+    "rsi": 26.76,
+    "vol_above": true,
+    "signal_time": "2026-05-28 04:00 UTC",
+    "outcome": "SL",
+    "outcome_time": "2026-05-28 04:00 UTC",
+    "outcome_price": 93.2669
+  },
+  {
+    "id": "BCH_20260528_0400",
+    "asset": "BCH",
+    "direction": "SHORT",
+    "conviction": "MC",
+    "price": 332.33,
+    "tp_price": 325.6834,
+    "sl_price": 336.76,
+    "tp_dollar": 20,
+    "sl_dollar": 13.33,
+    "rr": 1.5,
+    "rsi": 33.86,
+    "vol_above": false,
+    "signal_time": "2026-05-28 04:00 UTC",
+    "outcome": "SL",
+    "outcome_time": "2026-05-28 04:00 UTC",
+    "outcome_price": 336.76
+  },
+  {
     "id": "BCH_20260528_0305",
     "asset": "BCH",
     "direction": "SHORT",
@@ -121,9 +157,9 @@
     "rsi": 28.12,
     "vol_above": true,
     "signal_time": "2026-05-28 02:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "SL",
+    "outcome_time": "2026-05-28 04:00 UTC",
+    "outcome_price": 4506.6837
   },
   {
     "id": "BCH_20260528_0200",
@@ -193,9 +229,9 @@
     "rsi": 35.41,
     "vol_above": true,
     "signal_time": "2026-05-28 01:30 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "SL",
+    "outcome_time": "2026-05-28 04:00 UTC",
+    "outcome_price": 4523.6066
   },
   {
     "id": "SILVER_20260528_0120",
