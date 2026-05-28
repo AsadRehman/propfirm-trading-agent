@@ -1,5 +1,23 @@
 [
   {
+    "id": "GOLD_20260528_1810",
+    "asset": "GOLD",
+    "direction": "LONG",
+    "conviction": "MC",
+    "price": 4540.7998,
+    "tp_price": 4631.6158,
+    "sl_price": 4480.2709,
+    "tp_dollar": 20,
+    "sl_dollar": 13.33,
+    "rr": 1.5,
+    "rsi": 77.99,
+    "vol_above": false,
+    "signal_time": "2026-05-28 18:10 UTC",
+    "outcome": "SL",
+    "outcome_time": "2026-05-28 18:10 UTC",
+    "outcome_price": 4480.2709
+  },
+  {
     "id": "OIL_20260528_1800",
     "asset": "OIL",
     "direction": "SHORT",
