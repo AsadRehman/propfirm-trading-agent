@@ -931,9 +931,9 @@
     "rsi": 36.18,
     "vol_above": false,
     "signal_time": "2026-05-27 14:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-05-28 03:20 UTC",
+    "outcome_price": 73551.744
   },
   {
     "id": "BCH_20260527_1330",
@@ -985,9 +985,9 @@
     "rsi": 35.35,
     "vol_above": false,
     "signal_time": "2026-05-27 13:15 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-05-28 03:20 UTC",
+    "outcome_price": 73779.692
   },
   {
     "id": "OIL_20260527_1300",
