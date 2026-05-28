@@ -1381,9 +1381,9 @@
     "rsi": 39.71,
     "vol_above": true,
     "signal_time": "2026-05-27 06:15 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-05-28 03:50 UTC",
+    "outcome_price": 4403.63
   },
   {
     "id": "OIL_20260527_0600",
@@ -1417,9 +1417,9 @@
     "rsi": 38.05,
     "vol_above": true,
     "signal_time": "2026-05-27 05:55 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-05-28 03:50 UTC",
+    "outcome_price": 4402.7481
   },
   {
     "id": "OIL_20260527_0500",
@@ -1993,9 +1993,9 @@
     "rsi": 42.2,
     "vol_above": false,
     "signal_time": "2026-05-26 19:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-05-28 03:50 UTC",
+    "outcome_price": 4407.4519
   },
   {
     "id": "BCH_20260526_1900",
