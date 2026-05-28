@@ -1,5 +1,23 @@
 [
   {
+    "id": "GOLD_20260528_1905",
+    "asset": "GOLD",
+    "direction": "LONG",
+    "conviction": "MC",
+    "price": 4533.3999,
+    "tp_price": 4624.0679,
+    "sl_price": 4472.9697,
+    "tp_dollar": 20,
+    "sl_dollar": 13.33,
+    "rr": 1.5,
+    "rsi": 71.19,
+    "vol_above": false,
+    "signal_time": "2026-05-28 19:05 UTC",
+    "outcome": "SL",
+    "outcome_time": "2026-05-28 19:05 UTC",
+    "outcome_price": 4472.9697
+  },
+  {
     "id": "GOLD_20260528_1810",
     "asset": "GOLD",
     "direction": "LONG",
