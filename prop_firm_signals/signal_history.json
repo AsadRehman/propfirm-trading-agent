@@ -319,9 +319,9 @@
     "rsi": 35.46,
     "vol_above": false,
     "signal_time": "2026-05-29 13:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "SL",
+    "outcome_time": "2026-05-29 17:15 UTC",
+    "outcome_price": 74155.4894
   },
   {
     "id": "ETH_20260529_1215",
@@ -841,9 +841,9 @@
     "rsi": 38.3,
     "vol_above": false,
     "signal_time": "2026-05-29 03:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "SL",
+    "outcome_time": "2026-05-29 17:15 UTC",
+    "outcome_price": 74118.4015
   },
   {
     "id": "BTC_20260529_0255",
@@ -859,9 +859,9 @@
     "rsi": 36.97,
     "vol_above": false,
     "signal_time": "2026-05-29 02:55 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "SL",
+    "outcome_time": "2026-05-29 17:15 UTC",
+    "outcome_price": 74102.0869
   },
   {
     "id": "BCH_20260529_0230",
