@@ -1,5 +1,23 @@
 [
   {
+    "id": "BCH_20260529_0840",
+    "asset": "BCH",
+    "direction": "SHORT",
+    "conviction": "MC",
+    "price": 304.74,
+    "tp_price": 298.6452,
+    "sl_price": 308.8022,
+    "tp_dollar": 20,
+    "sl_dollar": 13.33,
+    "rr": 1.5,
+    "rsi": 49.88,
+    "vol_above": true,
+    "signal_time": "2026-05-29 08:40 UTC",
+    "outcome": "TP",
+    "outcome_time": "2026-05-29 08:40 UTC",
+    "outcome_price": 298.6452
+  },
+  {
     "id": "GOLD_20260529_0800",
     "asset": "GOLD",
     "direction": "LONG",
