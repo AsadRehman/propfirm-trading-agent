@@ -1,5 +1,41 @@
 [
   {
+    "id": "OIL_20260529_1520",
+    "asset": "OIL",
+    "direction": "SHORT",
+    "conviction": "MC",
+    "price": 86.81,
+    "tp_price": 85.0738,
+    "sl_price": 87.9672,
+    "tp_dollar": 20,
+    "sl_dollar": 13.33,
+    "rr": 1.5,
+    "rsi": 40.18,
+    "vol_above": false,
+    "signal_time": "2026-05-29 15:20 UTC",
+    "outcome": "SL",
+    "outcome_time": "2026-05-29 15:20 UTC",
+    "outcome_price": 87.9672
+  },
+  {
+    "id": "SILVER_20260529_1520",
+    "asset": "SILVER",
+    "direction": "LONG",
+    "conviction": "MC",
+    "price": 76.56,
+    "tp_price": 78.0912,
+    "sl_price": 75.5395,
+    "tp_dollar": 20,
+    "sl_dollar": 13.33,
+    "rr": 1.5,
+    "rsi": 61.53,
+    "vol_above": true,
+    "signal_time": "2026-05-29 15:20 UTC",
+    "outcome": "SL",
+    "outcome_time": "2026-05-29 15:20 UTC",
+    "outcome_price": 75.5395
+  },
+  {
     "id": "GOLD_20260529_1500",
     "asset": "GOLD",
     "direction": "LONG",
@@ -157,9 +193,9 @@
     "rsi": 34.88,
     "vol_above": false,
     "signal_time": "2026-05-29 13:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "SL",
+    "outcome_time": "2026-05-29 15:20 UTC",
+    "outcome_price": 2022.8195
   },
   {
     "id": "BTC_20260529_1300",
