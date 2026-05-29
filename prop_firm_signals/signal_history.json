@@ -121,9 +121,9 @@
     "rsi": 42.15,
     "vol_above": false,
     "signal_time": "2026-05-29 14:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "SL",
+    "outcome_time": "2026-05-29 15:30 UTC",
+    "outcome_price": 2024.1571
   },
   {
     "id": "BTC_20260529_1400",
@@ -229,9 +229,9 @@
     "rsi": 34.66,
     "vol_above": false,
     "signal_time": "2026-05-29 12:15 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "SL",
+    "outcome_time": "2026-05-29 15:30 UTC",
+    "outcome_price": 2023.924
   },
   {
     "id": "BTC_20260529_1215",
