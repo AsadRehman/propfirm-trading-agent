@@ -1,5 +1,23 @@
 [
   {
+    "id": "BTC_20260531_1420",
+    "asset": "BTC",
+    "direction": "SHORT",
+    "conviction": "MC",
+    "price": 73462.3,
+    "tp_price": 71993.054,
+    "sl_price": 74441.5525,
+    "tp_dollar": 20,
+    "sl_dollar": 13.33,
+    "rr": 1.5,
+    "rsi": 27.98,
+    "vol_above": true,
+    "signal_time": "2026-05-31 14:20 UTC",
+    "outcome": "PENDING",
+    "outcome_time": null,
+    "outcome_price": null
+  },
+  {
     "id": "ETH_20260531_1415",
     "asset": "ETH",
     "direction": "SHORT",
