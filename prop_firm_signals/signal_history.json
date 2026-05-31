@@ -175,9 +175,9 @@
     "rsi": 44.04,
     "vol_above": false,
     "signal_time": "2026-05-31 13:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-05-31 16:35 UTC",
+    "outcome_price": 297.8612
   },
   {
     "id": "ETH_20260531_1205",
