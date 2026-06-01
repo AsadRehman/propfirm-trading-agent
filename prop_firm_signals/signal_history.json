@@ -1,5 +1,23 @@
 [
   {
+    "id": "GOLD_20260601_1325",
+    "asset": "GOLD",
+    "direction": "SHORT",
+    "conviction": "MC",
+    "price": 4515.5,
+    "tp_price": 4425.19,
+    "sl_price": 4575.6916,
+    "tp_dollar": 20,
+    "sl_dollar": 13.33,
+    "rr": 1.5,
+    "rsi": 33.91,
+    "vol_above": false,
+    "signal_time": "2026-06-01 13:25 UTC",
+    "outcome": "PENDING",
+    "outcome_time": null,
+    "outcome_price": null
+  },
+  {
     "id": "ETH_20260601_1315",
     "asset": "ETH",
     "direction": "SHORT",
@@ -1759,9 +1777,9 @@
     "rsi": 58.6,
     "vol_above": false,
     "signal_time": "2026-05-29 15:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "SL",
+    "outcome_time": "2026-06-01 13:25 UTC",
+    "outcome_price": 4511.2528
   },
   {
     "id": "BCH_20260529_1420",
@@ -1975,9 +1993,9 @@
     "rsi": 59.16,
     "vol_above": false,
     "signal_time": "2026-05-29 12:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "SL",
+    "outcome_time": "2026-06-01 13:25 UTC",
+    "outcome_price": 4502.471
   },
   {
     "id": "BCH_20260529_1200",
@@ -2029,9 +2047,9 @@
     "rsi": 67.37,
     "vol_above": false,
     "signal_time": "2026-05-29 11:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "SL",
+    "outcome_time": "2026-06-01 13:25 UTC",
+    "outcome_price": 4508.0952
   },
   {
     "id": "BCH_20260529_1100",
@@ -2083,9 +2101,9 @@
     "rsi": 69.44,
     "vol_above": false,
     "signal_time": "2026-05-29 10:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "SL",
+    "outcome_time": "2026-06-01 13:25 UTC",
+    "outcome_price": 4508.7861
   },
   {
     "id": "BCH_20260529_1000",
