@@ -679,9 +679,9 @@
     "rsi": 38.13,
     "vol_above": false,
     "signal_time": "2026-05-31 08:45 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-06-01 06:45 UTC",
+    "outcome_price": 1980.1194
   },
   {
     "id": "BCH_20260531_0300",
