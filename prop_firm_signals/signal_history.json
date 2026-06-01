@@ -895,9 +895,9 @@
     "rsi": 39.37,
     "vol_above": false,
     "signal_time": "2026-05-31 16:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-06-01 12:10 UTC",
+    "outcome_price": 72074.198
   },
   {
     "id": "BCH_20260531_1500",
@@ -949,9 +949,9 @@
     "rsi": 32.26,
     "vol_above": false,
     "signal_time": "2026-05-31 15:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-06-01 12:10 UTC",
+    "outcome_price": 72033.528
   },
   {
     "id": "BTC_20260531_1420",
