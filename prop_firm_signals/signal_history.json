@@ -625,9 +625,9 @@
     "rsi": 39.13,
     "vol_above": false,
     "signal_time": "2026-05-31 14:15 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-06-01 07:50 UTC",
+    "outcome_price": 1974.2198
   },
   {
     "id": "BCH_20260531_1400",
@@ -679,9 +679,9 @@
     "rsi": 39.87,
     "vol_above": false,
     "signal_time": "2026-05-31 12:05 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-06-01 07:50 UTC",
+    "outcome_price": 1976.513
   },
   {
     "id": "BCH_20260531_1200",
@@ -715,9 +715,9 @@
     "rsi": 40.58,
     "vol_above": false,
     "signal_time": "2026-05-31 11:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-06-01 07:50 UTC",
+    "outcome_price": 1977.5126
   },
   {
     "id": "ETH_20260531_1000",
