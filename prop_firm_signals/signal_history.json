@@ -1,5 +1,23 @@
 [
   {
+    "id": "BCH_20260601_0505",
+    "asset": "BCH",
+    "direction": "SHORT",
+    "conviction": "MC",
+    "price": 298.7,
+    "tp_price": 292.726,
+    "sl_price": 302.6817,
+    "tp_dollar": 20,
+    "sl_dollar": 13.33,
+    "rr": 1.5,
+    "rsi": 43.82,
+    "vol_above": false,
+    "signal_time": "2026-06-01 05:05 UTC",
+    "outcome": "SL",
+    "outcome_time": "2026-06-01 05:05 UTC",
+    "outcome_price": 302.6817
+  },
+  {
     "id": "ETH_20260601_0500",
     "asset": "ETH",
     "direction": "SHORT",
