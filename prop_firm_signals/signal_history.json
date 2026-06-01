@@ -1,5 +1,23 @@
 [
   {
+    "id": "GOLD_20260601_0945",
+    "asset": "GOLD",
+    "direction": "SHORT",
+    "conviction": "MC",
+    "price": 4520.7998,
+    "tp_price": 4430.3838,
+    "sl_price": 4581.0621,
+    "tp_dollar": 20,
+    "sl_dollar": 13.33,
+    "rr": 1.5,
+    "rsi": 32.25,
+    "vol_above": true,
+    "signal_time": "2026-06-01 09:45 UTC",
+    "outcome": "SL",
+    "outcome_time": "2026-06-01 09:45 UTC",
+    "outcome_price": 4581.0621
+  },
+  {
     "id": "SILVER_20260601_0930",
     "asset": "SILVER",
     "direction": "LONG",
@@ -1507,9 +1525,9 @@
     "rsi": 65.96,
     "vol_above": false,
     "signal_time": "2026-05-29 14:15 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "SL",
+    "outcome_time": "2026-06-01 09:45 UTC",
+    "outcome_price": 4518.9486
   },
   {
     "id": "OIL_20260529_1400",
