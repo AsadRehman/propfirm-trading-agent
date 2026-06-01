@@ -1147,9 +1147,9 @@
     "rsi": 55.24,
     "vol_above": false,
     "signal_time": "2026-05-29 18:40 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "SL",
+    "outcome_time": "2026-06-01 07:05 UTC",
+    "outcome_price": 4529.9995
   },
   {
     "id": "OIL_20260529_1800",
