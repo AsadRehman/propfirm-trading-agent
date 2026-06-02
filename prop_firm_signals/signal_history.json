@@ -1,5 +1,23 @@
 [
   {
+    "id": "GOLD_20260602_1720",
+    "asset": "GOLD",
+    "direction": "SHORT",
+    "conviction": "MC",
+    "price": 4516.2002,
+    "tp_price": 4425.8762,
+    "sl_price": 4576.4011,
+    "tp_dollar": 20,
+    "sl_dollar": 13.33,
+    "rr": 1.5,
+    "rsi": 28.34,
+    "vol_above": false,
+    "signal_time": "2026-06-02 17:20 UTC",
+    "outcome": "PENDING",
+    "outcome_time": null,
+    "outcome_price": null
+  },
+  {
     "id": "BCH_20260602_1700",
     "asset": "BCH",
     "direction": "SHORT",
