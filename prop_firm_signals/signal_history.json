@@ -1,5 +1,23 @@
 [
   {
+    "id": "SILVER_20260602_1810",
+    "asset": "SILVER",
+    "direction": "SHORT",
+    "conviction": "MC",
+    "price": 75.465,
+    "tp_price": 73.9557,
+    "sl_price": 76.4709,
+    "tp_dollar": 20,
+    "sl_dollar": 13.33,
+    "rr": 1.5,
+    "rsi": 34.41,
+    "vol_above": true,
+    "signal_time": "2026-06-02 18:10 UTC",
+    "outcome": "SL",
+    "outcome_time": "2026-06-02 18:10 UTC",
+    "outcome_price": 76.4709
+  },
+  {
     "id": "GOLD_20260602_1800",
     "asset": "GOLD",
     "direction": "SHORT",
