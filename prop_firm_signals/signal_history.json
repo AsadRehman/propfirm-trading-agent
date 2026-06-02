@@ -103,9 +103,9 @@
     "rsi": 49.85,
     "vol_above": true,
     "signal_time": "2026-06-02 02:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "SL",
+    "outcome_time": "2026-06-02 05:40 UTC",
+    "outcome_price": 76.3899
   },
   {
     "id": "BCH_20260602_0200",
@@ -373,9 +373,9 @@
     "rsi": 39.59,
     "vol_above": false,
     "signal_time": "2026-06-01 16:20 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "SL",
+    "outcome_time": "2026-06-02 05:40 UTC",
+    "outcome_price": 4556.3369
   },
   {
     "id": "ETH_20260601_1600",
