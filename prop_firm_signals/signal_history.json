@@ -1,5 +1,23 @@
 [
   {
+    "id": "BCH_20260602_1425",
+    "asset": "BCH",
+    "direction": "SHORT",
+    "conviction": "MC",
+    "price": 282.33,
+    "tp_price": 276.6834,
+    "sl_price": 286.0935,
+    "tp_dollar": 20,
+    "sl_dollar": 13.33,
+    "rr": 1.5,
+    "rsi": 36.91,
+    "vol_above": false,
+    "signal_time": "2026-06-02 14:25 UTC",
+    "outcome": "SL",
+    "outcome_time": "2026-06-02 14:25 UTC",
+    "outcome_price": 286.0935
+  },
+  {
     "id": "ETH_20260602_1400",
     "asset": "ETH",
     "direction": "SHORT",
@@ -535,9 +553,9 @@
     "rsi": 41.47,
     "vol_above": false,
     "signal_time": "2026-06-02 07:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-06-02 14:25 UTC",
+    "outcome_price": 1940.9096
   },
   {
     "id": "BTC_20260602_0700",
@@ -625,9 +643,9 @@
     "rsi": 40.93,
     "vol_above": false,
     "signal_time": "2026-06-02 06:00 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-06-02 14:25 UTC",
+    "outcome_price": 1941.821
   },
   {
     "id": "BTC_20260602_0600",
@@ -1921,9 +1939,9 @@
     "rsi": 37.82,
     "vol_above": false,
     "signal_time": "2026-06-01 04:30 UTC",
-    "outcome": "PENDING",
-    "outcome_time": null,
-    "outcome_price": null
+    "outcome": "TP",
+    "outcome_time": "2026-06-02 14:25 UTC",
+    "outcome_price": 1953.483
   },
   {
     "id": "BCH_20260601_0415",
