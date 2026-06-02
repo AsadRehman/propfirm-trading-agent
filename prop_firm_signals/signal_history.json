@@ -1,5 +1,23 @@
 [
   {
+    "id": "BTC_20260602_1105",
+    "asset": "BTC",
+    "direction": "SHORT",
+    "conviction": "MC",
+    "price": 69483.2,
+    "tp_price": 68093.536,
+    "sl_price": 70409.4111,
+    "tp_dollar": 20,
+    "sl_dollar": 13.33,
+    "rr": 1.5,
+    "rsi": 38.04,
+    "vol_above": false,
+    "signal_time": "2026-06-02 11:05 UTC",
+    "outcome": "SL",
+    "outcome_time": "2026-06-02 11:05 UTC",
+    "outcome_price": 70409.4111
+  },
+  {
     "id": "GOLD_20260602_1100",
     "asset": "GOLD",
     "direction": "LONG",
