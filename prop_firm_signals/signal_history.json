@@ -1,5 +1,23 @@
 [
   {
+    "id": "BCH_20260603_1200",
+    "asset": "BCH",
+    "direction": "SHORT",
+    "conviction": "MC",
+    "price": 249.09,
+    "tp_price": 244.1082,
+    "sl_price": 252.4104,
+    "tp_dollar": 20,
+    "sl_dollar": 13.33,
+    "rr": 1.5,
+    "rsi": 39.68,
+    "vol_above": false,
+    "signal_time": "2026-06-03 12:00 UTC",
+    "outcome": "SL",
+    "outcome_time": "2026-06-03 12:00 UTC",
+    "outcome_price": 252.4104
+  },
+  {
     "id": "BCH_20260603_1125",
     "asset": "BCH",
     "direction": "SHORT",
